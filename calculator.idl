@@ -1,0 +1,7 @@
+struct CalculatorRequest {
+    string<256> data;
+};
+
+struct CalculatorResponse {
+    string<256> data;
+};
