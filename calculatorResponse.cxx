@@ -61,7 +61,7 @@ std::string process_data(dds::sub::DataReader<CalculatorRequest>& reader)
         }
     }
 
-    return "nothing";
+    return "";
 }
 
 void catchData(unsigned int domain_id, unsigned int request_count)
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
         catchData(arguments.domain_id, arguments.sample_count);
     }
     catch (const std::exception& ex) {
-        std::cerr << "Exception in run_example(): " << ex.what()
+        std::cerr << "Exception in catchData(): " << ex.what()
             << std::endl;
         return EXIT_FAILURE;
     }

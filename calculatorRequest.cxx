@@ -63,9 +63,6 @@ void sendData(unsigned int domain_id, unsigned int response_count)
     CalculatorRequest req;
     std::string input;
     while (!shutdown_requested) {
-
-        std::cout << "Input: " << std::endl;
-
         std::cin >> req.a();
         std::cin >> req.operation();
         std::cin >> req.b();
@@ -104,7 +101,7 @@ int main(int argc, char* argv[])
         sendData(arguments.domain_id, arguments.sample_count);
     }
     catch (const std::exception& ex) {
-        std::cerr << "Exception in run_example(): " << ex.what()
+        std::cerr << "Exception in sendData(): " << ex.what()
             << std::endl;
         return EXIT_FAILURE;
     }
