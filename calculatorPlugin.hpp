@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef calculatorPlugin_693593764_h
-#define calculatorPlugin_693593764_h
+#ifndef calculatorPlugin_693593786_h
+#define calculatorPlugin_693593786_h
 
 #include "calculator.hpp"
 
@@ -347,5 +347,5 @@ CalculatorResponsePlugin_delete(struct PRESTypePlugin *);
 #define NDDSUSERDllExport
 #endif
 
-#endif /* calculatorPlugin_693593764_h */
+#endif /* calculatorPlugin_693593786_h */
 

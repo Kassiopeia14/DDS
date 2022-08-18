@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef calculator_693593764_hpp
-#define calculator_693593764_hpp
+#ifndef calculator_693593786_hpp
+#define calculator_693593786_hpp
 
 #include <iosfwd>
 
@@ -61,8 +61,10 @@ class NDDSUSERDllExport CalculatorRequest {
   public:
     CalculatorRequest();
 
-    explicit CalculatorRequest(
-        const std::string& data);
+    CalculatorRequest(
+        double a,
+        double b,
+        char operation);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -76,20 +78,40 @@ class NDDSUSERDllExport CalculatorRequest {
     #endif
     #endif 
 
-    std::string& data() OMG_NOEXCEPT {
-        return m_data_;
+    double& a() OMG_NOEXCEPT {
+        return m_a_;
     }
 
-    const std::string& data() const OMG_NOEXCEPT {
-        return m_data_;
+    const double& a() const OMG_NOEXCEPT {
+        return m_a_;
     }
 
-    void data(const std::string& value) {
-        m_data_ = value;
+    void a(double value) {
+        m_a_ = value;
     }
 
-    void data(std::string&& value) {
-        m_data_ = std::move(value);
+    double& b() OMG_NOEXCEPT {
+        return m_b_;
+    }
+
+    const double& b() const OMG_NOEXCEPT {
+        return m_b_;
+    }
+
+    void b(double value) {
+        m_b_ = value;
+    }
+
+    char& operation() OMG_NOEXCEPT {
+        return m_operation_;
+    }
+
+    const char& operation() const OMG_NOEXCEPT {
+        return m_operation_;
+    }
+
+    void operation(char value) {
+        m_operation_ = value;
     }
 
     bool operator == (const CalculatorRequest& other_) const;
@@ -99,7 +121,9 @@ class NDDSUSERDllExport CalculatorRequest {
 
   private:
 
-    std::string m_data_;
+    double m_a_;
+    double m_b_;
+    char m_operation_;
 
 };
 
@@ -287,5 +311,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // calculator_693593764_hpp
+#endif // calculator_693593786_hpp
 

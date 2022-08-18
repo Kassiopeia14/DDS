@@ -22,10 +22,42 @@ std::string process_data(dds::sub::DataReader<CalculatorRequest>& reader)
     for (const auto& request : requests) {
         if (request.info().valid()) {
             requests_read++;
-            std::string data = "client received: " + request.data().data();
+
+            double
+                a = request.data().a(),
+                b = request.data().b(),
+                result = 0;
+            char operation = request.data().operation();
+
+            switch (operation)
+            {
+            case '+': {
+
+                result = a + b;
+                break;
+            }
+            case '-': {
+
+                result = a - b;
+                break;
+            }
+            case '*': {
+
+                result = a * b;
+                break;
+            }
+            case '/': {
+
+                result = a / b;
+                break;
+            }
+            default:;
+            }
+
+            std::string data = "client received: " + std::to_string(a) + operation + std::to_string(b) + ", answer is: " + std::to_string(result);
             std::cout << data << std::endl;
 
-            return data;
+            return std::to_string(result);
         }
     }
 

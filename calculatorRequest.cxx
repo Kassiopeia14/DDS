@@ -23,7 +23,7 @@ unsigned int process_data(dds::sub::DataReader<CalculatorResponse>& reader)
     for (const auto& response : responses) {
         if (response.info().valid()) {
             responses_read++;
-            std::cout << "server recieved: " << response.data().data() << std::endl;
+            std::cout << "Answer: " << response.data().data() << std::endl;
         }
     }
 
@@ -64,8 +64,22 @@ void sendData(unsigned int domain_id, unsigned int response_count)
     std::string input;
     while (!shutdown_requested) {
 
-        std::cin >> input;
-        req.data(input);
+        std::cout << "Input: " << std::endl;
+
+        std::cin >> req.a();
+        std::cin >> req.operation();
+        std::cin >> req.b();
+
+        try {
+            if (std::cin.fail()) {
+                throw "Wrong number or operation";
+            }
+        }
+        catch (char* error) {
+            std::cout << error << std::endl;
+            break;
+        }
+
         writer.write(req);
         //rti::util::sleep(dds::core::Duration(4));
     }

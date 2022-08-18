@@ -23,18 +23,28 @@ or consult the Code Generator User's Manual.
 // ---- CalculatorRequest: 
 
 CalculatorRequest::CalculatorRequest() :
-    m_data_ ("")  {
+    m_a_ (0.0) ,
+    m_b_ (0.0) ,
+    m_operation_ (0)  {
 }   
 
 CalculatorRequest::CalculatorRequest (
-    const std::string& data)
+    double a,
+    double b,
+    char operation)
     :
-        m_data_( data ) {
+        m_a_( a ),
+        m_b_( b ),
+        m_operation_( operation ) {
 }
 
 #ifdef RTI_CXX11_RVALUE_REFERENCES
 #ifdef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
-CalculatorRequest::CalculatorRequest(CalculatorRequest&& other_) OMG_NOEXCEPT  :m_data_ (std::move(other_.m_data_))
+CalculatorRequest::CalculatorRequest(CalculatorRequest&& other_) OMG_NOEXCEPT  :m_a_ (std::move(other_.m_a_))
+,
+m_b_ (std::move(other_.m_b_))
+,
+m_operation_ (std::move(other_.m_operation_))
 {
 } 
 
@@ -49,11 +59,19 @@ CalculatorRequest& CalculatorRequest::operator=(CalculatorRequest&&  other_) OMG
 void CalculatorRequest::swap(CalculatorRequest& other_)  OMG_NOEXCEPT 
 {
     using std::swap;
-    swap(m_data_, other_.m_data_);
+    swap(m_a_, other_.m_a_);
+    swap(m_b_, other_.m_b_);
+    swap(m_operation_, other_.m_operation_);
 }  
 
 bool CalculatorRequest::operator == (const CalculatorRequest& other_) const {
-    if (m_data_ != other_.m_data_) {
+    if (m_a_ != other_.m_a_) {
+        return false;
+    }
+    if (m_b_ != other_.m_b_) {
+        return false;
+    }
+    if (m_operation_ != other_.m_operation_) {
         return false;
     }
     return true;
@@ -66,7 +84,9 @@ std::ostream& operator << (std::ostream& o,const CalculatorRequest& sample)
 {
     ::rti::util::StreamFlagSaver flag_saver (o);
     o <<"[";
-    o << "data: " << sample.data() ;
+    o << "a: " << std::setprecision(15) <<sample.a()<<", ";
+    o << "b: " << std::setprecision(15) <<sample.b()<<", ";
+    o << "operation: '" << sample.operation() ;
     o <<"]";
     return o;
 }
@@ -136,15 +156,49 @@ namespace rti {
 
                 static RTIBool is_initialized = RTI_FALSE;
 
-                static DDS_TypeCode CalculatorRequest_g_tc_data_string;
-
-                static DDS_TypeCode_Member CalculatorRequest_g_tc_members[1]=
+                static DDS_TypeCode_Member CalculatorRequest_g_tc_members[3]=
                 {
 
                     {
-                        (char *)"data",/* Member name */
+                        (char *)"a",/* Member name */
                         {
                             0,/* Representation ID */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }, 
+                    {
+                        (char *)"b",/* Member name */
+                        {
+                            1,/* Representation ID */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }, 
+                    {
+                        (char *)"operation",/* Member name */
+                        {
+                            2,/* Representation ID */
                             DDS_BOOLEAN_FALSE,/* Is a pointer? */
                             -1, /* Bitfield bits */
                             NULL/* Member type code is assigned later */
@@ -171,7 +225,7 @@ namespace rti {
                         0, /* Ignored */
                         0, /* Ignored */
                         NULL, /* Ignored */
-                        1, /* Number of members */
+                        3, /* Number of members */
                         CalculatorRequest_g_tc_members, /* Members */
                         DDS_VM_NONE, /* Ignored */
                         RTICdrTypeCodeAnnotations_INITIALIZER,
@@ -184,15 +238,29 @@ namespace rti {
                     return &CalculatorRequest_g_tc;
                 }
 
-                CalculatorRequest_g_tc_data_string = initialize_string_typecode((256L));
-
                 CalculatorRequest_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-                CalculatorRequest_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&CalculatorRequest_g_tc_data_string;
+                CalculatorRequest_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_double;
+                CalculatorRequest_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_double;
+                CalculatorRequest_g_tc_members[2]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_char;
 
                 /* Initialize the values for member annotations. */
-                CalculatorRequest_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
-                CalculatorRequest_g_tc_members[0]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
+                CalculatorRequest_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_DOUBLE;
+                CalculatorRequest_g_tc_members[0]._annotations._defaultValue._u.double_value = 0.0;
+                CalculatorRequest_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_DOUBLE;
+                CalculatorRequest_g_tc_members[0]._annotations._minValue._u.double_value = RTIXCdrDouble_MIN;
+                CalculatorRequest_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_DOUBLE;
+                CalculatorRequest_g_tc_members[0]._annotations._maxValue._u.double_value = RTIXCdrDouble_MAX;
+
+                CalculatorRequest_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_DOUBLE;
+                CalculatorRequest_g_tc_members[1]._annotations._defaultValue._u.double_value = 0.0;
+                CalculatorRequest_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_DOUBLE;
+                CalculatorRequest_g_tc_members[1]._annotations._minValue._u.double_value = RTIXCdrDouble_MIN;
+                CalculatorRequest_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_DOUBLE;
+                CalculatorRequest_g_tc_members[1]._annotations._maxValue._u.double_value = RTIXCdrDouble_MAX;
+
+                CalculatorRequest_g_tc_members[2]._annotations._defaultValue._d = RTI_XCDR_TK_CHAR;
+                CalculatorRequest_g_tc_members[2]._annotations._defaultValue._u.char_value = 0;
 
                 CalculatorRequest_g_tc._data._sampleAccessInfo = sample_access_info();
                 CalculatorRequest_g_tc._data._typePlugin = type_plugin_info();    
@@ -208,7 +276,7 @@ namespace rti {
 
                 CalculatorRequest *sample;
 
-                static RTIXCdrMemberAccessInfo CalculatorRequest_g_memberAccessInfos[1] =
+                static RTIXCdrMemberAccessInfo CalculatorRequest_g_memberAccessInfos[3] =
                 {RTIXCdrMemberAccessInfo_INITIALIZER};
 
                 static RTIXCdrSampleAccessInfo CalculatorRequest_g_sampleAccessInfo = 
@@ -226,7 +294,13 @@ namespace rti {
                 }
 
                 CalculatorRequest_g_memberAccessInfos[0].bindingMemberValueOffset[0] = 
-                (RTIXCdrUnsignedLong) ((char *)&sample->data() - (char *)sample);
+                (RTIXCdrUnsignedLong) ((char *)&sample->a() - (char *)sample);
+
+                CalculatorRequest_g_memberAccessInfos[1].bindingMemberValueOffset[0] = 
+                (RTIXCdrUnsignedLong) ((char *)&sample->b() - (char *)sample);
+
+                CalculatorRequest_g_memberAccessInfos[2].bindingMemberValueOffset[0] = 
+                (RTIXCdrUnsignedLong) ((char *)&sample->operation() - (char *)sample);
 
                 CalculatorRequest_g_sampleAccessInfo.memberAccessInfos = 
                 CalculatorRequest_g_memberAccessInfos;
@@ -512,12 +586,14 @@ namespace dds {
 
         void topic_type_support< CalculatorRequest >::reset_sample(CalculatorRequest& sample) 
         {
-            sample.data("");
+            sample.a(0.0);
+            sample.b(0.0);
+            sample.operation(0);
         }
 
         void topic_type_support< CalculatorRequest >::allocate_sample(CalculatorRequest& sample, int, int) 
         {
-            ::rti::topic::allocate_sample(sample.data(),  -1, 256L);
+            RTIOsapiUtility_unusedParameter(sample);
         }
 
         void topic_type_support< CalculatorResponse >:: register_type(

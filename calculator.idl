@@ -1,5 +1,6 @@
 struct CalculatorRequest {
-    string<256> data;
+    double a, b;
+    char operation;
 };
 
 struct CalculatorResponse {

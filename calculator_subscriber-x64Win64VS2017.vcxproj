@@ -28,7 +28,7 @@
     <LocalDebuggerEnvironment>PATH=$(NDDSHOME)\lib\x64Win64VS2017</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>calculatorServer</ProjectName>
+    <ProjectName>calculator_subscriber</ProjectName>
     <RootNamespace>calculator_subscriber</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectGuid>{8E420232-A373-41D3-AA50-83B62C0E2B2C}</ProjectGuid>
@@ -260,6 +260,7 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="calculatorResponse.cxx" />
     <ClCompile Include="calculatorPlugin.cxx">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -278,7 +279,6 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="calculatorResponse.cxx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calculator.hpp" />
